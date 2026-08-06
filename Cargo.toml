@@ -2,5 +2,23 @@
 name = "evbunpack-rs"
 version = "0.0.1"
 edition = "2024"
+description = "Enigma Virtual Box unpacker (library)"
+license = "Apache-2.0"
+
+[lib]
+name = "evbunpack_rs"
+path = "src/lib.rs"
 
 [dependencies]
+goblin = { version = "0.9", default-features = false, features = ["pe32", "std"] }
+thiserror = "2.0"
+tracing = "0.1"
+
+[dev-dependencies]
+tempfile = "3"
+
+[workspace]
+members = ["cli"]
+
+[profile.release]
+opt-level = 2
