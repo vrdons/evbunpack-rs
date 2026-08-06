@@ -10,7 +10,7 @@ name = "evbunpack-rs"
 path = "src/main.rs"
 
 [dependencies]
-evbunpack-rs = { path = "..", version = "0.2.6" }
+evbunpack-rs = { path = "..", version = "0.0.1" }
 
 clap = { version = "4.5", features = ["derive"] }
 tracing = "0.1"
