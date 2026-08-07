@@ -39,7 +39,6 @@ impl PeVariant {
     }
 }
 
-/// Log level choices matching the Python `--log-level` argument.
 #[derive(Debug, Clone, Copy, ValueEnum, PartialEq, Eq, Default)]
 pub enum LogLevel {
     Debug,
@@ -65,10 +64,9 @@ impl LogLevel {
     }
 }
 
-/// Enigma Virtual Box Unpacker (Rust port of evbunpack).
 #[derive(Debug, Parser)]
 #[command(
-    name = "evbunpack-rs",
+    name = "evbunpack",
     version,
     about = "Enigma Virtual Box Unpacker",
     long_about = None

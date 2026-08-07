@@ -6,7 +6,7 @@ description = "Command-line binary for evbunpack-rs (Enigma Virtual Box unpacker
 license = "Apache-2.0"
 
 [[bin]]
-name = "evbunpack-rs"
+name = "evbunpack"
 path = "src/main.rs"
 
 [dependencies]
@@ -15,3 +15,46 @@ evbunpack-rs = { path = "..", version = "0.0.1" }
 clap = { version = "4.5", features = ["derive"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+strip = true
+panic = "abort"
+
+
+[package.metadata.binstall]
+pkg-url = "{ repo }/releases/download/v{ version }/{ name }-{ target }-{ version }{ archive-suffix }"
+bin-dir = "{ bin }{ binary-ext }"
+
+[package.metadata.generate-rpm]
+assets = [
+    { source = "target/release/evbunpack", dest = "/usr/bin/evbunpack", mode = "755" },
+]
+summary = "Enigma Virtual Box Unpacker"
+description = """
+Evbunpack is a tool for extracting .enigma1 data from executeable files 
+"""
+license = "MIT"
+
+[package.metadata.deb]
+maintainer = "Vrdons <vrdons@proton.me>"
+copyright = "2026, Vrdons <vrdons@proton.me>"
+extended-description = """
+Evbunpack is a tool for extracting .enigma1 data from executeable files
+"""
+depends = "$auto"
+section = "utility"
+priority = "optional"
+assets = [
+    [
+        "target/release/evbunpack",
+        "usr/bin/",
+        "755",
+    ],
+    [
+        "README.md",
+        "usr/share/doc/evbunpack/",
+        "644",
+    ],
+]

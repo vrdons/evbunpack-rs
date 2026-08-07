@@ -67,7 +67,7 @@ jobs:
           fi
 
       - name: Build
-        run: cargo build --release --target ${{ matrix.target }}
+        run: cargo build -p evbunpack-cli --release --target ${{ matrix.target }}
 
       - name: Get crate info
         id: crate_info
