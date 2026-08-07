@@ -10,7 +10,7 @@ name = "evbunpack_rs"
 path = "src/lib.rs"
 
 [dependencies]
-goblin = { version = "0.9", default-features = false, features = ["pe32", "std"] }
+goblin = { version = "0.10", default-features = false, features = ["pe32", "std"] }
 thiserror = "2.0"
 tracing = "0.1"
 
