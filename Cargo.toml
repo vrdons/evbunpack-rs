@@ -7,6 +7,7 @@ license = "Apache-2.0"
 authors = ["Vrdons <vrdons@proton.me>"]
 readme = "README.md"
 exclude = ["target/", ".git/", ".github/", "tests/", "example/"]
+repository = "https://github.com/vrdons/evbunpack-rs"
 
 [lib]
 name = "evbunpack_rs"
