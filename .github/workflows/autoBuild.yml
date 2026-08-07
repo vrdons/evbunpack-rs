@@ -72,7 +72,7 @@ jobs:
       - name: Get crate info
         id: crate_info
         run: |
-          echo "name=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')" >> $GITHUB_OUTPUT
+          echo "name=$(cargo metadata --no-deps --format-version 1 | jq -r '[.packages[].targets[] | select(.kind | index("bin")) | .name] | first')" >> $GITHUB_OUTPUT
           echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
         shell: bash
 
