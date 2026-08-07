@@ -24,6 +24,9 @@ pkg-url = "{ repo }/releases/download/v{ version }/{ name }-{ target }-{ version
 bin-dir = "{ bin }{ binary-ext }"
 
 [package.metadata.generate-rpm]
+assets = [
+    { source = "target/release/evbunpack", dest = "/usr/bin/evbunpack", mode = "755" },
+]
 summary = "Enigma Virtual Box Unpacker"
 description = """
 Evbunpack is a tool for extracting .enigma1 data from executeable files 
@@ -40,6 +43,11 @@ depends = "$auto"
 section = "utility"
 priority = "optional"
 assets = [
+    [
+        "target/release/evbunpack",
+        "usr/bin/",
+        "755",
+    ],
     [
         "README.md",
         "usr/share/doc/evbunpack/",
