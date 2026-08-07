@@ -67,7 +67,7 @@ jobs:
           fi
 
       - name: Build
-        run: cargo build -p evbunpack-cli --release --target ${{ matrix.target }}
+        run: cargo build -p evbunpack-cli --profile release-lto --target ${{ matrix.target }}
 
       - name: Get crate info
         id: crate_info
@@ -78,7 +78,7 @@ jobs:
 
       - name: Create archives and packages
         run: |
-          cd target/${{ matrix.target }}/release
+          cd target/${{ matrix.target }}/release-lto
           case "${{ runner.os }}" in
             "Windows")
               7z a ../../../${{ steps.crate_info.outputs.name }}-${{ matrix.target }}-${{ steps.crate_info.outputs.version }}.zip ${{ steps.crate_info.outputs.name }}.exe
@@ -93,14 +93,14 @@ jobs:
       - name: Create DEB package
         if: matrix.target == 'x86_64-unknown-linux-gnu'
         run: |
-          cargo deb --target ${{ matrix.target }} --no-build
+          cargo deb -p evbunpack-cli --target ${{ matrix.target }} --profile release-lto --no-build
           cp target/${{ matrix.target }}/debian/*.deb ${{ steps.crate_info.outputs.name }}-${{ steps.crate_info.outputs.version }}-amd64.deb
 
       - name: Create RPM package
         if: matrix.target == 'x86_64-unknown-linux-gnu'
         run: |
-          cargo generate-rpm --target ${{ matrix.target }}
-          find target/${{ matrix.target }}/generate-rpm -name "*.rpm" -exec cp {} ${{ steps.crate_info.outputs.name }}-${{ steps.crate_info.outputs.version }}-1.x86_64.rpm \;
+          cargo generate-rpm -p cli --target ${{ matrix.target }} --profile release-lto
+          find target -name "*.rpm" -path "*generate-rpm*" -exec cp {} ${{ steps.crate_info.outputs.name }}-${{ steps.crate_info.outputs.version }}-1.x86_64.rpm \;
 
       - name: Upload artifacts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
