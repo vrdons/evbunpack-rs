@@ -132,9 +132,10 @@ pub(crate) fn decompress_chunks(
 
     // Read chunk table (remaining bytes after the 8-byte header)
     let table_bytes = &block[8..chunks_blk_size];
-    let table_u32: Vec<u32> = table_bytes
-        .chunks_exact(4)
-        .map(|c| u32::from_le_bytes(c.try_into().unwrap()))
+    let (table_chunks, _) = table_bytes.as_chunks::<4>();
+    let table_u32: Vec<u32> = table_chunks
+        .iter()
+        .map(|c| u32::from_le_bytes(*c))
         .collect();
 
     // Every 3rd entry is the actual chunk size
@@ -712,10 +713,8 @@ mod records {
             name_bytes.extend_from_slice(&pair);
         }
 
-        let u16s: Vec<u16> = name_bytes
-            .chunks_exact(2)
-            .map(|c| u16::from_le_bytes(c.try_into().unwrap()))
-            .collect();
+        let (name_chunks, _) = name_bytes.as_chunks::<2>();
+        let u16s: Vec<u16> = name_chunks.iter().map(|c| u16::from_le_bytes(*c)).collect();
         let name = String::from_utf16_lossy(&u16s);
 
         let mut type_buf = [0u8; 1];
